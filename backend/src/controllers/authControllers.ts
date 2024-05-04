@@ -11,7 +11,6 @@ function checkIfErrors(req:Request,res:Response){
 }
 
 export const login=catchAsyncError(async (req:Request,res:Response,next:NextFunction)=>{
-
     checkIfErrors(req,res);
     const {email,password}=req.body 
     //check if User Exist
