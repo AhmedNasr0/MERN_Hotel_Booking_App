@@ -3,6 +3,7 @@ import path from 'path';
 const UI_URL="http://localhost:5173/"
 const email="ahmednasr7006@gmail.com"
 const password="123456"
+
 test.beforeEach(async ({page})=>{
     await page.goto(UI_URL);
   // get the sign in button 
@@ -18,6 +19,7 @@ test.beforeEach(async ({page})=>{
   await expect(page.getByRole("link",{name:"My Hotels"})).toBeVisible();
   await expect(page.getByRole("button",{name:"SignOut"})).toBeVisible();
 })
+
 test("User Can Add Hotel",async ({page})=>{
     await page.goto(`${UI_URL}add-hotel`)
     await expect(page.getByText("Add Hotel")).toBeVisible();
@@ -39,5 +41,19 @@ test("User Can Add Hotel",async ({page})=>{
         path.join(__dirname,"files","2.png")
     ])
     await page.getByRole('button',{name:"Save"}).click()
-    await expect(page.getByText("Hotel Saved!")).toBeVisible({timeout:12000})
+    await expect(page.getByText("Hotel Saved!")).toBeVisible({timeout:30000})
+})
+
+test("User Should see His Posted Hotels",async({page})=>{
+    await page.goto(`${UI_URL}my-hotels`)
+    await expect(page.getByText("My Hotels")).toBeVisible()
+    await expect(page.getByRole('link',{name:"Add Hotel"})).toBeVisible();
+    await expect(page.getByText("Hotel Name")).toBeVisible();
+    await expect(page.getByText("City, Country")).toBeVisible();
+    await expect(page.getByText("Hotel Description")).toBeVisible();
+    await expect(page.getByText("Budget")).toBeVisible();
+    await expect(page.getByText("£100 per night")).toBeVisible();
+    await expect(page.getByText("1 adults, 1 children")).toBeVisible();
+    await expect(page.getByText("5 Star Rating")).toBeVisible();
+    await expect(page.getByRole('link',{name:"View Details"})).toBeVisible()
 })

@@ -1,6 +1,6 @@
 import express from 'express'
 import multer from 'multer'
-import { addHotel } from '../controllers/hotelControllers'
+import { addHotel,getMyHotels } from '../controllers/hotelControllers'
 import { verifyToken } from '../middlewares/verifyToken'
 import { body } from 'express-validator'
 const router=express.Router()
@@ -19,5 +19,7 @@ router.post('/',verifyToken,[
     body('facilities').notEmpty().isArray().withMessage("facilities is Required"),
 
 ],upload.array("images",6),addHotel);
+
+router.get('/',verifyToken,getMyHotels)
 
 export default router

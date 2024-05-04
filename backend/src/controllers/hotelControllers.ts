@@ -20,3 +20,8 @@ export const addHotel=catchAsyncError(async (req:Request,res:Response,next:NextF
 
     res.status(201).json(hotel);
 })
+export const getMyHotels=catchAsyncError(async (req:Request,res:Response,next:NextFunction)=>{
+    const hotels=await Hotel.find({userId:req.userId});
+    
+    res.status(201).json({hotels})
+})
