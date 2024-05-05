@@ -48,12 +48,29 @@ test("User Should see His Posted Hotels",async({page})=>{
     await page.goto(`${UI_URL}my-hotels`)
     await expect(page.getByText("My Hotels")).toBeVisible()
     await expect(page.getByRole('link',{name:"Add Hotel"})).toBeVisible();
-    await expect(page.getByText("Hotel Name")).toBeVisible();
-    await expect(page.getByText("City, Country")).toBeVisible();
-    await expect(page.getByText("Hotel Description")).toBeVisible();
-    await expect(page.getByText("Budget")).toBeVisible();
-    await expect(page.getByText("£100 per night")).toBeVisible();
-    await expect(page.getByText("1 adults, 1 children")).toBeVisible();
-    await expect(page.getByText("5 Star Rating")).toBeVisible();
-    await expect(page.getByRole('link',{name:"View Details"})).toBeVisible()
+    await expect(page.getByText("Hotel Name").first()).toBeVisible();
+    await expect(page.getByText("City, Country").first()).toBeVisible();
+    await expect(page.getByText("Hotel Description").first()).toBeVisible();
+    await expect(page.getByText("Budget").first()).toBeVisible();
+    await expect(page.getByText("£100 per night").first()).toBeVisible();
+    await expect(page.getByText("1 adults, 1 children").first()).toBeVisible();
+    await expect(page.getByText("5 Star Rating").first()).toBeVisible();
+    await expect(page.getByRole('link',{name:"View Details"}).first()).toBeVisible()
+})
+
+test("user Can update his hotel and Show the updated hotel",async({page})=>{
+    await page.goto(`${UI_URL}my-hotels`)
+    await page.getByRole('link',{name:"View Details"}).first().click();
+    await page.waitForSelector('[name="name"]',{state:"attached"});
+
+    await expect(page.getByText('name').first()).toHaveValue("Hotel Name")
+    await page.locator('[name="name"]').first().fill("Hotel Name Update")
+    await page.getByRole('button',{name:"Update"}).click();
+    await expect(page.getByText("Hotel Upated Suuccessfully")).toBeVisible();
+    await page.reload()
+    await expect(page.locator('[name="name"]').first()).toHaveValue("Hotel Name Update");
+
+    await page.locator('[name="name"]').first().fill("Hotel Name")
+    await page.getByRole('button',{name:"Update"}).click();
+
 })

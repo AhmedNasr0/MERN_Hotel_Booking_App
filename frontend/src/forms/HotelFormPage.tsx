@@ -4,7 +4,9 @@ import TypeSection from "../Components/TypeSection";
 import FacilitiesSection from "../Components/FacilitiesSection";
 import GuestSection from "../Components/GuestSection";
 import ImageSection from "../Components/ImageSection";
+import { useEffect } from "react";
 export type HotelFormData = {
+    _id:string;
     name: string;
     city: string;
     country: string;
@@ -19,18 +21,27 @@ export type HotelFormData = {
     childCount: number;
 };
 interface Iprops{
-  saveForm: (hotelFormData: FormData) => void;
+  saveForm: (FormData:FormData)=>void,
+  type:'Update'|'Save'
+  hotel?:HotelFormData|undefined,
   loading: boolean;
 }
 const HotelForm = (props:Iprops) => {
     const formMethods = useForm<HotelFormData>();
-    const { handleSubmit } = formMethods;
+    const { handleSubmit ,reset } = formMethods;
+
+  useEffect(()=>{ // reset form with data
+    reset(props.hotel)
+  },[props.hotel,reset])
+
     const onSubmit = handleSubmit((formDataJson: HotelFormData) => {
-      
-      const formData=createFormData(formDataJson);
+      let formData;
+      if(props.hotel)
+        formData=createFormData(formDataJson,props.hotel)
+      else formData=createFormData(formDataJson);
       props.saveForm(formData);
     });
-  
+    console.log(formMethods.watch());
     return (
       <FormProvider {...formMethods}>
         <form className="flex flex-col gap-10" onSubmit={onSubmit}>
@@ -45,7 +56,12 @@ const HotelForm = (props:Iprops) => {
               type="submit"
               className="bg-blue-500 text-white p-2 font-bold hover:bg-blue-400 text-xl rounded-md disabled:bg-gray-500"
             >
-              {props.loading ? "Saving..." : "Save"}
+              {props.loading ? 
+                <div
+                  className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] text-primary motion-reduce:animate-[spin_1.5s_linear_infinite]"
+                  role="status">
+                </div>
+              : props.type}
             </button>
           </span>
         </form>
@@ -53,8 +69,12 @@ const HotelForm = (props:Iprops) => {
     );
   };
   
-  function createFormData(formDataJson:HotelFormData){
-      const formData = new FormData();
+  function createFormData(formDataJson:HotelFormData,hotel?:HotelFormData){
+    const formData = new FormData();  
+    if(hotel){
+      formData.append("hotelId",hotel._id);
+    }
+      
       formData.append("name", formDataJson.name);
       formData.append("city", formDataJson.city);
       formData.append("country", formDataJson.country);
