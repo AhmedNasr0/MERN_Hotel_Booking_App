@@ -6,6 +6,8 @@ import { useAppContext } from "./context/appContext"
 import AddHotel from "./pages/addHotelPage"
 import MyHotelsPage from "./pages/myHotelsPage"
 import EditHotelPage from "./pages/editHotelPage"
+import SearchPage from "./pages/SearchPage"
+import HomePage from "./pages/HomePage"
 
 
 function App() {
@@ -16,13 +18,7 @@ function App() {
          <Routes>
             <Route path="/" element={
               <Layout child={
-                <p>Home Page</p>
-              }>
-              </Layout>}
-            />
-            <Route path="/search" element={
-              <Layout child={
-                <p>search Page</p>
+                <HomePage/>
               }>
               </Layout>}
             />
@@ -38,6 +34,12 @@ function App() {
               }>
               </Layout>}
             />
+            <Route path="/search" element={
+                  <Layout child={
+                    <SearchPage/>
+                  }>
+                  </Layout>}
+                />
             {
               isLoggedIn&&(
                 <>

@@ -4,6 +4,23 @@ import { registerFormData } from "./pages/registerPage";
 
 const API_BASE_URL=import.meta.env.VITE_API_BASE_URL || ""
 
+export interface ISearchParams{
+    destination?:string,
+    checkIn?:string,
+    checkOut?:string,
+    adultCount?:string,
+    childCount?:string,
+    page?:string,
+    facilities?:string[],
+    types?:string[],
+    starRating?:string[],
+    maxPrice?:string,
+    minPrice?:string,
+    sortOption?:string
+}
+
+
+
 export const register=async (formData:registerFormData)=>{
     const response = await fetch(`${API_BASE_URL}/api/users/register`,{
         method:'POST',
@@ -88,4 +105,28 @@ export const getHotelById=async(hotelId:string):Promise<HotelFormData>=>{
     })
     if(!response.ok) throw new Error("error when updating")
     return response.json();
+}
+
+export const FetchHotels=async(searchParams:ISearchParams)=>{
+    const urlParams=new URLSearchParams();
+    urlParams.append("destination",searchParams.destination||'');
+    urlParams.append("checkIn",searchParams.checkIn?.toString()||"");
+    urlParams.append("checkOut",searchParams.checkOut?.toString()||"");
+    urlParams.append("adultCount",searchParams.adultCount?.toString()||"");
+    urlParams.append("childCount",searchParams.childCount?.toString()||"");
+    urlParams.append("page",searchParams.page||"");
+    urlParams.append("starRating",searchParams.starRating?.toString()||"");
+    urlParams.append("sortOption",searchParams.sortOption?.toString()||"");
+    urlParams.append("minPrice",searchParams.minPrice?.toString()||"0")
+    urlParams.append("maxPrice",searchParams.maxPrice?.toString()||"0")
+    searchParams.facilities?.forEach((facility)=>{
+        urlParams.append("facilities",facility);
+    })
+    searchParams.types?.forEach((type)=>urlParams.append("types",type))
+    searchParams.starRating?.forEach((star)=>urlParams.append("starRating",star))
+
+    const response=await fetch(`${API_BASE_URL}/api/hotels/search?${urlParams}`,{
+    })
+    if(!response.ok) throw new Error("error while fetching")
+    return response.json()
 }

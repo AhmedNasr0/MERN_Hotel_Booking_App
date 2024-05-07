@@ -1,9 +1,9 @@
 import { FormProvider, useForm } from "react-hook-form";
-import DetailsSection from "../Components/DetailsSections";
-import TypeSection from "../Components/TypeSection";
-import FacilitiesSection from "../Components/FacilitiesSection";
-import GuestSection from "../Components/GuestSection";
-import ImageSection from "../Components/ImageSection";
+import DetailsSection from "./Components/DetailsSections";
+import TypeSection from "./Components/TypeSection";
+import FacilitiesSection from "./Components/FacilitiesSection";
+import GuestSection from "./Components/GuestSection";
+import ImageSection from "./Components/ImageSection";
 import { useEffect } from "react";
 export type HotelFormData = {
     _id:string;
