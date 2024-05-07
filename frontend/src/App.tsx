@@ -8,6 +8,7 @@ import MyHotelsPage from "./pages/myHotelsPage"
 import EditHotelPage from "./pages/editHotelPage"
 import SearchPage from "./pages/SearchPage"
 import HomePage from "./pages/HomePage"
+import Detail from "./pages/DetailsPage"
 
 
 function App() {
@@ -39,7 +40,16 @@ function App() {
                     <SearchPage/>
                   }>
                   </Layout>}
-                />
+            />
+            <Route
+                path="/detail/:hotelId"
+                element={
+                  <Layout child={
+                    <Detail />
+                  }>
+                  </Layout>
+            }
+          />
             {
               isLoggedIn&&(
                 <>

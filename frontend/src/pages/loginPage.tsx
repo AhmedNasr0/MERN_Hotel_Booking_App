@@ -3,7 +3,7 @@ import { useMutation, useQueryClient } from "react-query"
 import { Link, useNavigate } from "react-router-dom"
 import * as apiClient from "../api-client"
 import { useAppContext } from "../context/appContext"
-
+import { useLocation } from "react-router-dom"
 export type loginFormData={
     email:string,
     password:string 
@@ -13,13 +13,14 @@ const LoginPage=()=>{
 
     const {register,formState:{errors},watch,handleSubmit}=useForm<loginFormData>();
     const navigate = useNavigate();
+    const location=useLocation();
     const appContext=useAppContext();
     const queryClient=useQueryClient();
     const mutation=useMutation(apiClient.login,{
         onSuccess:async ()=>{
             appContext.showToast({message:`welcome ${watch('email')} `,type:'success'})
             await queryClient.invalidateQueries("validateToken");
-            navigate('/')
+            navigate(location.state?.from.pathname || "/");
         },
         onError:(error:Error)=>{
             appContext.showToast({message:error.message,type:"error"})
