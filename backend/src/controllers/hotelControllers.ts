@@ -3,6 +3,74 @@ import catchAsyncError from "../utils/errorHandling";
 import cloudinary from 'cloudinary'
 import Hotel, { HotelType } from "../models/hotel";
 import { uploadImage } from "../Services/Cloudinary";
+import { Stripe } from 'stripe'
+
+const stripe=new Stripe(process.env.SECKRET_STRIPE_API_KEY as string);
+
+
+type PaymentIntentType={
+    payment_Intent_Id:string,
+    totalCost:number,
+    clintSecret:string 
+}
+export type BookingType={
+    _id:string,
+    userId: string;
+    firstName: string;
+    lastName: string;
+    email: string;
+    adultCount: number;
+    childCount: number;
+    checkIn:Date,
+    checkOut:Date,
+    totalCost:number 
+}
+export const createPayment_Intent=catchAsyncError(async(req:Request,res:Response,next:NextFunction)=>{
+    const {numberOfNight}=req.body
+    const hotelId=req.params.hotelId
+    const hotel=await Hotel.findById(hotelId)
+    if(!hotel){
+        return res.status(404).json({"message":"Hotel Not Found"})
+    }
+    const totalCost=hotel.pricePerNight* numberOfNight
+    const payment=await stripe.paymentIntents.create({
+        amount:totalCost*100,
+        currency:"EUR",
+        metadata:{
+            hotelId,
+            userId:req.userId
+        }
+    })
+    
+    if(!payment.client_secret) return res.status(500).json({"message":"Error While creating payment intent"})
+    const response:PaymentIntentType={
+        payment_Intent_Id:payment.id,
+        totalCost,
+        clintSecret:payment.client_secret.toString()
+    }
+    res.status(200).json(response)
+   
+})
+
+export const confirmPaymentIntent=catchAsyncError(async(req:Request,res:Response,next:NextFunction)=>{
+    const paymentintent_Id=req.body.paymentIntentId
+    const paymentIntent=await stripe.paymentIntents.retrieve(paymentintent_Id as string) 
+
+    // make some checks of retrived payment
+    if(!paymentIntent) return res.status(400).json({"message":"payment intent not found"}) 
+    if(paymentIntent.metadata.hotelId !=req.params.hotelId || paymentIntent.metadata.userId!=req.userId){
+        return res.status(400).json({"message":"payment intent mismatch"})
+    }
+    if(paymentIntent.status!="succeeded") return res.status(400).json({"message":"payment intent not Succeded"})
+    // save and update hotel and booking
+    const book:BookingType={...req.body , userId:req.userId}
+    const hotel=await Hotel.findOneAndUpdate({_id:req.body.hotelId} ,{$push:{bookings:book}})
+    if(!hotel ) return res.status(400).json({"message":"Hotel not found"})
+    await hotel.save();
+    res.status(200).json({"message":"payment intent success"})
+})
+
+
 
 export const addHotel=catchAsyncError(async (req:Request,res:Response,next:NextFunction)=>{
     const images = req.files as Express.Multer.File[];

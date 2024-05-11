@@ -34,7 +34,6 @@ const SearchPage=()=>{
         maxPrice:selectedMaxPrice.toString(),
         sortOption:sortOption.toString()
     }
-    console.log(sortOption);
     const {data:hotels}=useQuery(["searchParams",searchParams],()=>FetchHotels(searchParams));
     const handleOnChangePage=(pageNum:number)=>{
         setPage(pageNum);

@@ -23,4 +23,10 @@ export const register = catchAsyncError(async (req:Request,res:Response,next:Nex
     await user.save();
     return res.status(200).json({message:"Successfull Registration"})
 })
-module.exports={register}
+
+export const getMyInfo=catchAsyncError(async(req:Request,res:Response,next:NextFunction)=>{
+    const userId=req.userId
+    const user=await User.findById(userId).select("-password");
+    if(!user) res.status(400).json({"message":"User Not Found"});
+    res.status(201).json(user)
+})

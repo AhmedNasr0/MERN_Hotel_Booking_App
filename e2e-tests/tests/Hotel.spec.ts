@@ -74,3 +74,4 @@ test("user Can update his hotel and Show the updated hotel",async({page})=>{
     await page.getByRole('button',{name:"Update"}).click();
 
 })
+

@@ -1,6 +1,7 @@
 import { HotelFormData } from "./forms/HotelFormPage";
 import { loginFormData } from "./pages/loginPage";
 import { registerFormData } from "./pages/registerPage";
+import { BookingFormDataType } from "./shared";
 
 const API_BASE_URL=import.meta.env.VITE_API_BASE_URL || ""
 
@@ -130,3 +131,40 @@ export const FetchHotels=async(searchParams:ISearchParams)=>{
     if(!response.ok) throw new Error("error while fetching")
     return response.json()
 }
+export const fetchCurrentUser=async()=>{
+    const user=await fetch(`${API_BASE_URL}/api/users/me`,{
+        credentials:'include',
+    })
+    if(!user.ok) throw new Error("Error While Fetching User")
+    return user.json();
+}
+
+export const createPaymentIntent=async (hotelId:string,numberOfNight:string)=>{
+    const response=await fetch(`${API_BASE_URL}/api/hotels/${hotelId}/bookings/payment-intent`,{
+        method:"POST",
+        credentials:"include",
+        body:JSON.stringify({numberOfNight}),
+        headers:{
+            "Content-Type":"application/json"
+        }
+    })
+    if(!response.ok) throw new Error("Error While Fetching")
+    return response.json()
+}
+export const createRoomBooking = async (formData: BookingFormDataType) => {
+    const response = await fetch(
+      `${API_BASE_URL}/api/hotels/${formData.hotelId}/bookings`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify(formData),
+      }
+    );
+  
+    if (!response.ok) {
+      throw new Error("Error booking room");
+    }
+  };

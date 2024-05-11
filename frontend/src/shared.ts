@@ -14,3 +14,22 @@ export type HotelType={
   imageUrls: string[];
   lastUpdated: Date;
 }
+export type user={
+  _id:string,
+  email:string,
+  password:string,
+  firstName:string,
+  lastName:string,
+}
+export type BookingFormDataType={
+  hotelId: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  adultCount: number;
+  childCount: number;
+  checkIn:string,
+  checkOut:string,
+  totalCost:number ,
+  paymentIntentId:string
+}
