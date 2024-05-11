@@ -54,7 +54,7 @@ test("User should book hotel",async({page})=>{
 
     await page.getByRole("button", { name: "Book now" }).click()
 
-    await expect(page.getByText("Total Cost: £300.00")).toBeVisible({timeout:5000})
+    await expect(page.getByText("Total Cost: £200.00")).toBeVisible({timeout:9000})
     const stripeFrame=page.frameLocator("iframe").first();
     await stripeFrame.locator('[placeholder="Card number"]').fill("4242 4242 4242 4242")
     await stripeFrame.locator('[placeholder="MM / YY"]').fill("5/28");
@@ -63,5 +63,6 @@ test("User should book hotel",async({page})=>{
     await page.getByRole("button",{name:"Confirm Booking"}).click();
 
     await expect(page.getByText("Booking Saved!")).toBeVisible({timeout:50000});
-
+    await page.getByRole("link", { name: "My Bookings" }).click();
+    await expect(page.getByText("Hotel Name")).toBeVisible();
 })

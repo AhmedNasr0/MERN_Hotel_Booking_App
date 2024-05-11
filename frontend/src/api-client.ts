@@ -168,3 +168,12 @@ export const createRoomBooking = async (formData: BookingFormDataType) => {
       throw new Error("Error booking room");
     }
   };
+
+export const getMyBookings=async()=>{
+    const result=await fetch(`${API_BASE_URL}/api/bookings/my-bookings`,{
+        method:"GET",
+        credentials:"include"
+    });
+    if(!result.ok) throw new Error("Error While Fetching")
+    return result.json()
+}
