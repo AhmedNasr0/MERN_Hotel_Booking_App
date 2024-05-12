@@ -114,7 +114,7 @@ export const getHotelById=catchAsyncError(async(req:Request,res:Response,next:Ne
     res.json(hotel)
 })
 
-export const getAllHotels=catchAsyncError(async(req:Request,res:Response,next:NextFunction)=>{
+export const getAllHotelsBySearch=catchAsyncError(async(req:Request,res:Response,next:NextFunction)=>{
     const query=contructSearchQuery(req.query);
     let sortOption=SortOption(req.query.sortOption);
     const pageSize=5
@@ -191,3 +191,8 @@ function SortOption(sortOption:any){
     }
     return option
 }
+
+export const getAllHotels=catchAsyncError(async(req:Request,res:Response,next:NextFunction)=>{
+    const hotels=await Hotel.find();
+    res.status(200).json(hotels);
+})
