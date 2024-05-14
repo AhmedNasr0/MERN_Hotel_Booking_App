@@ -1,7 +1,7 @@
 import { useQuery } from "react-query";
 import { useSearchContext } from "../context/searchContext"
 import { FetchHotels } from "../api-client";
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, useState } from "react";
 import Pagination from "../Components/Pagination";
 import SearchResultsCard from "../Components/searchResultCard";
 import { HotelType } from "../shared";
