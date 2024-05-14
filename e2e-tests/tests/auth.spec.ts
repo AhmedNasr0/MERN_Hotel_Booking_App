@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 
 const UI_URL="http://localhost:5173/"
-const email="ahmednasr7006@gmail.com"
+const email="ahmednasr@gmail.com"
 const password="123456"
 test("should allow the user to sign in",async ({page})=>{
   await page.goto(UI_URL);
