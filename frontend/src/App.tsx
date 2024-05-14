@@ -20,7 +20,7 @@ function App() {
       <Router>
          <Routes>
             <Route path="/" element={
-              <Layout child={
+              <Layout searchApperance={true} child={
                 <HomePage/>
               }>
               </Layout>}
@@ -38,7 +38,7 @@ function App() {
               </Layout>}
             />
             <Route path="/search" element={
-                  <Layout child={
+                  <Layout searchApperance={true} child={
                     <SearchPage/>
                   }>
                   </Layout>}
@@ -46,7 +46,7 @@ function App() {
             <Route
                 path="/detail/:hotelId"
                 element={
-                  <Layout child={
+                  <Layout searchApperance={true} child={
                     <Detail />
                   }>
                   </Layout>
@@ -62,12 +62,12 @@ function App() {
                   </Layout>}
                 /> 
                 <Route path="/my-bookings" element={
-                  <Layout child={
+                  <Layout searchApperance={true} child={
                     <MyBookingPage/>
                   }>
                   </Layout>}
                 /> 
-                <Route path="/hotel/:hotelId/booking" element={
+                <Route  path="/hotel/:hotelId/booking" element={
                   <Layout child={
                     <Booking/>
                   }>

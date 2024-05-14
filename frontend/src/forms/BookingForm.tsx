@@ -59,10 +59,10 @@ const BookingForm=({currentUser,paymentIntent}:Iprops)=>{
     return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="grid grid-cols-1 gap-5 rounded-lg border border-slate-300 p-5"
+      className="flex flex-wrap flex-col gap-5 rounded-lg border border-slate-300 p-5"
     >
-      <span className="text-3xl font-bold">Confirm Your Details</span>
-      <div className="grid grid-cols-2 gap-6">
+      <span className="text-xl md:text-3xl font-bold">Confirm Your Details</span>
+      <div className="flex flex-wrap flex-col gap-6">
         <label className="text-gray-700 text-sm font-bold flex-1">
           First Name
           <input
@@ -120,7 +120,7 @@ const BookingForm=({currentUser,paymentIntent}:Iprops)=>{
         <button
           disabled={isLoading}
           type="submit"
-          className="bg-blue-600 text-white p-2 font-bold rounded-xl hover:bg-blue-500 text-md disabled:bg-gray-500"
+          className="bg-blue-500 text-white p-2 font-bold rounded-xl hover:bg-blue-400 text-md disabled:bg-gray-500"
         >
           { isLoading ? (
             <div className="flex items-center gap-2">

@@ -30,8 +30,10 @@ const LoginPage=()=>{
         mutation.mutate(data)
     }
     return (
-        <form className="flex flex-col gap-5" onSubmit={handleSubmit(onSubmit)}>
-            <h1 className="text-3xl font-bold">LogIn With Your Account</h1>
+        <form className="flex flex-col gap-5 " onSubmit={handleSubmit(onSubmit)}>
+            <div className="flex items-center justify-center w-full">
+                <h1 className="sm:text-3xl text-xl  font-bold">LogIn With Your Account</h1>
+            </div>
             <label className="text-gray-700 text-sm font-bold flex-1">
                     Email :
                     <input type="email" className='border rounded w-full py-1 px-2 font-normal' 
@@ -55,7 +57,7 @@ const LoginPage=()=>{
             </label> 
             <div className='flex justify-between'>
                 <span>Dont Have Account ? <Link to="/register" className='border-b border-b-black pb-[2px]'>Create Account</Link></span>
-                <button type="submit" className='bg-blue-600 text-white p-2 font-bold hover:bg-blue-500 text-xl'>
+                <button type="submit" className='bg-blue-500 rounded-md text-white p-2 font-bold hover:bg-blue-500 text-xl'>
                     LogIn
                 </button>
             </div>

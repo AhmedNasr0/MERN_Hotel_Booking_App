@@ -8,7 +8,7 @@ const GuestSection=()=>{
         <>
             <h1 className="text-3xl font-bold">Guests</h1>
             <div className="flex gap-3 rounded-l w-full p-5 items-center justify-center bg-gray-300">
-                <div className="w-4/5 mx-auto flex gap-5">
+                <div className="w-4/5 mx-auto flex flex-wrap gap-5">
                 <label className="text-gray-700 text-sm font-bold flex-1">
                     Adults 
                     <input type="number" className='border rounded w-full py-1 px-2 font-normal' min={0} {...register("adultCount",{required:"Adult Number Required"})}/>

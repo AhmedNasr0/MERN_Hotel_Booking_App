@@ -15,7 +15,7 @@ const HotelFacilitiesFilter=({selectedMaxPrices,selectedMinPrices,onChangeMaxPri
                 </div>
                 <div className="flex flex-col">
                     <label className="flex-1">Maximum Price : {selectedMaxPrices}$</label>
-                    <input type="range" min={0} max={1000} className="border rounded-md" onChange={onChangeMaxPrice} value={selectedMaxPrices} />
+                    <input type="range" min={0} max={10000} className="border rounded-md" onChange={onChangeMaxPrice} value={selectedMaxPrices} />
                 </div>
             </div>
         </div>
